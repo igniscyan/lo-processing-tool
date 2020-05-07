@@ -3,11 +3,6 @@
 //my aim is to add a drag and drop component to swap the loaded sample
 
 //TEMP CONTROLS:
-// PPOOOOPPP
-
-skdfjaskfjaskdfj
-fasjdkfjaskdjfas
-fjaskdfjaskdjfkadf,j
 
 //PRESS 'SPACE' BAR to PLAY SAMPLE
 
