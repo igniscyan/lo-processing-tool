@@ -29,7 +29,7 @@ var allowBox = false;
 
 let titleFont;
 
-
+var rateReady = false;
 
 let state = 0;
 var sample;
@@ -42,7 +42,6 @@ var cueStart;
 //var contents = "";
 
 var addl = 0.2;
-var rate = 1;
 var addr = 0.5;
 var sampletoggle = false;
 var loopplus = 0;
@@ -82,6 +81,7 @@ var levelslider = 100;
 var displayLoopStart = 0;
 var displayLoopEnd = 4;
 
+var negative = 1;
 
 //let menu;
 let sel;
@@ -96,17 +96,34 @@ var MP;
 
 function preload(){
 
-sample = loadSound('assets/jul.WAV');
-titleFont = loadFont('assets/Fipps-Regular.otf');
+	sample = loadSound('assets/jul.WAV');
+	titleFont = loadFont('assets/Fipps-Regular.otf');
 //sample.amp(sampleamp);
 }
 
 function setup(){
 
 	sel = createSelect();
+	//sel.position(relative);
+
+	//sel.style('color', '#f9f9f9');
+
 	sel.size(100);
-	sel.position(0,80);
+	sel.position(30,80);
 	sel.option('jul');
+	sel.option('AJEET');
+	sel.option('BOYAN');
+	sel.option('MAYBACH');
+	sel.option('MAYBACH REV');
+	sel.option('jeweled');
+	sel.option('REV TEA');
+
+	sel.option('VISA');
+	sel.option('midsomer');
+	sel.option('GG');
+	sel.option('CHORAL - ubi');
+	sel.option('');
+	sel.changed(selectEvent);
 
 
 	//menu = new Dropdown();
@@ -130,7 +147,7 @@ function setup(){
 		sliderRev = new SliderClass(32 , 265, 240, 0, 100, 10, 4, [120,0,0,], false, false, false, false, true);
     //SLIDER STARTING POINT
     //X-VALUE in pixels
-    sliderVol.x = sliderVol.xStart+120;
+    sliderVol.x = sliderVol.xStart + 120;
 
 
     ////////////////
@@ -176,6 +193,7 @@ function gotFile(file){
 
 	sample.disconnect();
 	reverb.process(sample, 3, 2);
+	loopplus = 0;
 	sampletoggle = false;
 	recordwindow = 0;
 
@@ -188,46 +206,140 @@ function gotFile(file){
 
 
 
-/*class Dropdown {
 
-	constructor() {
-
-		this.w = 200;
-		this.h = 30;
-	}
-
-	clicked() {
-		if (mousePressed) {
-
-		}
-
-	}
-
-	option(){
+function rateCheck(){
 
 
-	}
+	if (sel.value() == "MAYBACH REV") {
+		rateReady = true;
+	} if (sel.value() == "jeweled") {
+		rateReady = true;
+	} if (sel.value() == "REV TEA") {
+		rateReady = true;
+	} if (sel.value() == "BOYAN") {
+		rateReady = true;
 
-	select(){
+	}	if (sel.value() == "GG") {
+		rateReady = true;
+	}	if (sel.value() == "AJEET") {
+		rateReady = true;
+	}	if (sel.value() == 'CHORAL - ubi') {
+			rateReady = true;
 
-		return val;
-	}
 
-
-	display() {
-		stroke(255,255,255,50);
-		fill(255,255,255,50);
-
-		if (recordwindow == 1) {
-			stroke(200,200,200,100);
-			fill(200,200,200,100);
-
-		}
-		rect(windowWidth*0.8, windowHeight*0.26, this.w, this.h);
+	}	else {
+		initialize();
 	}
 
 }
-*/
+
+//PRESET VALUES
+function selectEvent(){
+	let item = sel.value();
+
+
+	sample.stop();
+
+
+	if (item == 'jul') {
+		sample = new p5.SoundFile("assets/jul.wav",rateCheck());
+		bpm = 90;
+		beat = 60 / bpm
+		currentLoop = beat * 4 ;
+		displayLoopEnd = 4;
+		loopplus = 0;
+	} else if (item == 'AJEET') {
+			sample = new p5.SoundFile("assets/AJEET.mp3",rateCheck());
+			bpm = 132;
+			beat = 60 / bpm
+			currentLoop = beat * 16 ;
+			displayLoopEnd = 16;
+			loopplus = 0;
+	}	else if (item == 'BOYAN') {
+			sample = new p5.SoundFile("assets/BOYAN.wav",rateCheck());
+			bpm = 125;
+			beat = 60 / bpm
+			currentLoop = beat * 4 ;
+			displayLoopEnd = 4;
+			loopplus = 0;
+	}	else if (item == 'MAYBACH') {
+			sample = new p5.SoundFile("assets/MAYBACH.wav",rateCheck());
+			bpm = 157.123;
+			beat = 60 / bpm
+			currentLoop = beat * 32 ;
+			displayLoopEnd = 32;
+			loopplus = 0;
+
+	}	else if (item == 'MAYBACH REV') {
+			sample = new p5.SoundFile("assets/MAYBACH.wav", rateCheck());
+			bpm = 157.123;
+			beat = 60 / bpm
+			currentLoop = beat * 8 ;
+			loopplus = 8;
+			displayLoopStart = 8;
+			displayLoopEnd = 8;
+
+
+	} else if (item == 'jeweled') {
+		sample = new p5.SoundFile("assets/jul.wav", rateCheck());
+		bpm = 90;
+		beat = 60 / bpm
+		currentLoop = beat * 4;
+		loopplus = 2;
+		displayLoopStart = 2;
+		displayLoopEnd = 4;
+
+	}	else if (item == 'REV TEA') {
+		sample = new p5.SoundFile("assets/REV TEA 148bpm.wav", rateCheck());
+		bpm = 148;
+		beat = 60 / bpm
+		currentLoop = beat * 8;
+		loopplus = 0;
+		displayLoopStart = 0;
+		displayLoopEnd = 8;
+
+	}	else if (item == 'midsomer') {
+		sample = new p5.SoundFile("assets/midsummer loop 90bpm.wav", rateCheck());
+		bpm = 90;
+		beat = 60 / bpm
+		currentLoop = beat * 8;
+		displayLoopEnd = 8;
+		loopplus = 0;
+		displayLoopStart = 0;
+
+		//freq = 100;
+	}	else if (item == 'GG') {
+		sample = new p5.SoundFile("assets/midsummer loop 90bpm.wav", rateCheck());
+		bpm = 90;
+		beat = 60 / bpm
+		currentLoop = beat * 8;
+		displayLoopEnd = 8;
+
+	}	else if (item == 'CHORAL - ubi') {
+		sample = new p5.SoundFile("assets/Ubi caritas et amor - Durufle.mp3", rateCheck());
+		bpm = 90;
+		beat = 60 / bpm
+		loopplus = 43;
+		displayLoopStart = 65;
+		currentLoop = beat * 5;
+		displayLoopEnd = 5;
+
+		//loopplus = 81;
+
+
+
+
+
+		//freq = 100;
+	}
+
+	loopDuration = currentLoop;
+	sample.disconnect();
+	reverb.process(sample, 3, 2);
+	sampletoggle = false;
+	recordwindow = 0;
+	loopsection();
+}
 
 
 function draw(){
@@ -354,9 +466,10 @@ if(sampletoggle){
 	let playbackRate = rateplus;
 //	playbackRate = constrain(playbackRate, 0.01, 4);
 
-
+	rateSettings();
 
 	sample.rate(playbackRate);
+
 
 	filter.freq(freqf);
 // give the filter a narrow band (lower res = wider bandpass)
@@ -812,5 +925,118 @@ function mousePressed() {
 function mouseReleased() {
 
   MP = false
+
+}
+
+
+//PRESET SETTINGS
+
+function rateSettings() {
+
+	if (rateReady == true && sample.isLoaded() && sel.value() == "MAYBACH REV"){
+		rateplus = -1;
+		if(rateplus == -1){
+			rateReady = false;
+		}
+	}
+		else if (rateReady == true && sample.isLoaded() && sel.value() == "jeweled"){
+			rateplus = -0.5;
+
+			if(rateplus == -0.5){
+				rateReady = false;
+			}
+		}
+		else if (rateReady == true && sample.isLoaded() && sel.value() == "AJEET"){
+			sample.disconnect();
+
+			sample.connect(filter);
+			freqf = 3700;
+	 		filter.freq(freqf);
+			// give the filter a narrow band (lower res = wider bandpass)
+			filter.res(10);
+
+			filter.chain(reverb);
+			reverb.process(filter, 3, 2);
+			rateReady = false;
+
+		}
+		else if (rateReady == true && sample.isLoaded() && sel.value() == "BOYAN"){
+			sample.disconnect();
+
+			sample.connect(filter);
+			freqf = 4700;
+	 		filter.freq(freqf);
+			// give the filter a narrow band (lower res = wider bandpass)
+			filter.res(10);
+
+			filter.chain(reverb);
+			reverb.process(filter, 3, 2);
+
+			rateReady = false;
+
+
+
+		}
+		else if (rateReady == true && sample.isLoaded() && sel.value() == "REV TEA"){
+			sample.disconnect();
+
+			sample.connect(filter);
+			freqf = 4000;
+	 		filter.freq(freqf);
+			// give the filter a narrow band (lower res = wider bandpass)
+			filter.res(10);
+
+			filter.chain(reverb);
+			reverb.process(filter, 3, 2);
+			rateReady = false;
+
+		}
+
+		else if (rateReady == true && sample.isLoaded() && sel.value() == "GG"){
+			rateplus = -1;
+			loopplus = 4;
+			displayLoopStart = 6;
+			sample.disconnect();
+
+			sample.connect(filter);
+			freqf = 1200;
+	 		filter.freq(freqf);
+			// give the filter a narrow band (lower res = wider bandpass)
+			filter.res(10);
+
+			filter.chain(reverb);
+			reverb.process(filter, 3, 2);
+
+			if(rateplus == -1){
+				rateReady = false;
+			}
+		}
+			else if (rateReady == true && sample.isLoaded() && sel.value() == "CHORAL - ubi"){
+				rateplus = -1;
+				sample.disconnect();
+
+				sample.connect(filter);
+				freqf = 1900;
+		 		filter.freq(freqf);
+				// give the filter a narrow band (lower res = wider bandpass)
+				filter.res(10);
+
+				filter.chain(reverb);
+				reverb.process(filter, 3, 2);
+
+				if(rateplus == -1){
+					rateReady = false;
+				}
+		}
+
+
+
+
+	console.log(rateplus);
+}
+
+function initialize() {
+
+	rateplus = 1;
 
 }
